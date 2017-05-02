@@ -34,8 +34,8 @@ Here's a (wikiHow article on how to install ffmpeg on Windows)[http://www.wikiho
 ## Notes
 <ul>
   <li>This script only works for mp4 and mkv file types.</li>
-  <li>Make sure if you are having an mkv file, it should not contain any type of picture based subtitles(hdmv-pgs/vobsub,etc). You can use (MKVToolNix)[https://mkvtoolnix.download/] or any other similar gui utility to quickly remove the picture based subtitles. If the file already has an srt subtitle then the script will just copy it.</li>
+  <li>Make sure if you are having an mkv file, it should not contain any type of picture based subtitles(hdmv-pgs/vobsub,etc). You can use <a href="https://mkvtoolnix.download/">MKVToolNix</a> or any other similar gui utility to quickly remove the picture based subtitles or you can use ffmpeg to this as well. If the file already has an srt subtitle then the script will just copy it.</li>
   <li>If you would like to use your own poster image then add an image file (jpg only) in the same folder and rename it to the same as the movie file.</li>
-  <li>Although I have provided my own TMDb API key in the source, I would recommend you get you own from (here)[https://www.themoviedb.org/documentation/api]</li>
+  <li>Although I have provided my own TMDb API key in the source, I would recommend you get you own from <a href="[https://www.themoviedb.org/documentation/api">here</a></li>
 </ul>
 
