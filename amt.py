@@ -22,7 +22,7 @@ from imdbpie import Imdb
 from mutagen.mp4 import MP4, MP4Cover
 
 #Setting the API key for usage of TMDB API
-tmdb.API_KEY = 'YOUR-TMDB-API-KEY'
+tmdb.API_KEY = 'b888b64c9155c26ade5659ea4dd60e64'
 
 
 def collect_files(file_type):
@@ -248,8 +248,3 @@ else:
 		print('\n\n\nThe files that were not proccessed: \n')
 		for er in errored_files:
 			print(er)
-
-
-
-
-
