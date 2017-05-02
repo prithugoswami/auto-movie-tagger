@@ -14,8 +14,8 @@ A Python script that auto tags and adds poster to mkv or mp4 movie files.
 </ul>
 
 ## Installing ffmpeg
-You need to first download ffmpeg ((from here))[https://ffmpeg.org/download.html] and add it to your PATH variable if on windows.  
-Here's a (wikiHow article on how to install ffmpeg on Windows)[http://www.wikihow.com/Install-FFmpeg-on-Windows]
+You need to first download ffmpeg <a href="https://ffmpeg.org/download.html">(from here)</a> and add it to your PATH variable if on windows.  
+Here's a <a href="http://www.wikihow.com/Install-FFmpeg-on-Windows">wikiHow article on how to install ffmpeg on Windows</a>
 
 ## Installing Python module dependencies
 <ul>
