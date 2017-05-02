@@ -1,24 +1,12 @@
 '''
-Its a ugly script and its also my first ever python script. I wrote this whitout knowing alot about the language (like Classes, functions and other OOP stuff, 
-which If I knew, would make this script more readable and pretty). I just know some basic stuff like core object types and some begginer functions. 
-Everything else, I either know by my past knowledge of coding and referencing StackOverflow and the modules' docs
-
-This script has three components:
-1. A mkv to mp4 convertor in which it also can add one subtitle file named exactly the same as the movie file (with srt extension) in the same 
-folder as the script and it aslo adds the 'title', 'year', 'genre and 'comment' metadata tags to the resultant mp4 file by using imdb's data by 'imdbpie'
-
-2. A movie poster fetcher. For which it uses the 'tmdbsimple' module that is a wrapper library for themoviedb.org APIs. Here it calls the 'poster' module
-which as a function to get the path of the poster and it is downoaded in the same path using urllib.request.urlretrieve
-
-3. A poster adder ( I know, its a silly name, couldn't come up with anything else) that adds the poster to the mp4 file using 'mutagen' module
 
 TO-DO
 1. Add a way to notify when the script is done running
 2. Seems a little too much for now but I could change/add stream specific metadata according to the file
 For example depending upon what kind of audio the mkv file has (like AAC 5.1, DTS 5.1), the script can also change the title/handler of the audio stream
 right now it just blanks it out.
-The same can be done for subtitles depending upon language
-Again this is too much for now. I don't see my self implementing this anytime soon. All I need is one english.srt for now and that does it and I don't donwload multi-audio movies.
+The same can be done for subtitles depending upon language. This can also be implemented to discard dvd subtitles that are sometimes found
+in MKVs but are not supported by MP4
 3. Add proper error handleling for ffmpeg
 
 '''
@@ -32,7 +20,7 @@ from imdbpie import Imdb
 from mutagen.mp4 import MP4, MP4Cover
 
 #Setting the API key for usage of TMDB API
-tmdb.API_KEY = 'b888b64c9155c26ade5659ea4dd60e64'
+tmdb.API_KEY = 'YOUR-TMDB-API-KEY'
 
 
 def collect_files(file_type):
@@ -121,16 +109,12 @@ def start_process(filenames, mode ):
 			if mode == 1:
 				os.rename(filename, newfilename)	# it is required to rename it as its already an mp4 file that wasn't proccessed by ffmpeg
 				# command = 'ffmpeg -i "' + filename + '" -codec copy -c:d bin_data -map_metadata -1 "' + newfilename + '" '
-			if mode == 2:
+			if mode == 2 or mode == 4:
 				command = 'ffmpeg -i "' + filename + '" -sub_charenc UTF-8 -i "' + filename[:-4] +'.srt" ' + '-map 0 -map 1 -c copy -c:s mov_text -metadata:s:s:0 handler="English Subtitle" -metadata:s:s:0 language=eng -metadata:s:a:0 handler="" -metadata:s:v:0 handler="" "' + newfilename + '"'
 				subprocess.run(command)
 			if mode == 3:
 				command = 'ffmpeg -i "' + filename + '" -c copy -c:s mov_text -metadata:s:s:0 handler="English" -metadata:s:s:0 language=eng -metadata:s:a:0 handler="" -metadata:s:v:0 handler="" "' + newfilename + '"'
 				subprocess.run(command)
-			if mode == 4:
-				command = 'ffmpeg -i "' + filename + '" -sub_charenc UTF-8 -i "' + filename[:-4] +'.srt" ' + '-map 0 -map 1 -c copy -c:s mov_text -metadata:s:s:0 handler="English Subtitle" -metadata:s:s:0 language=eng -metadata:s:a:0 handler="" -metadata:s:v:0 handler="" "' + newfilename + '"'
-				subprocess.run(command)
-			
 
 
 			# the poster is fetched from tmdb only if there is no file named " filename + '.jpg' " in the working directory
@@ -169,11 +153,12 @@ def start_process(filenames, mode ):
 				video['\xa9ART'] = director
 			print('\nAdding poster and tagging file...')
 
-		# an error occurs somethimes, I am not sure what is the reason for now so I just handle it by letting the loop continue
-		# and saving thr file names that cause the error, in a list
+
 			try:
 				video.save()
-			except OverflowError:
+				# I have encounterd this error in pevious version of script, now I handle it by removing the metadata
+				# of the file. That seems to solve the probelem
+			except OverflowError:		
 				
 
 				remove_meta_command = 'ffmpeg -i "' + newfilename + '" -codec copy -map_metadata -1 "' + newfilename[:-4] + 'new.mp4"'
@@ -234,7 +219,7 @@ if not len(mkv_filenames) == 0:
 		if not len(mkv_with_srt_filenames) == 0:
 			mkv_filenames = remove_common_files(mkv_filenames, mkv_with_srt_filenames)
 
-# This is where the main orocess of conversion takes place.
+# This is where the main process of conversion takes place.
 # We simply check the file lists are not empty and then execute the main task depending 
 # on what type it is according to mode in the funtion "start_process"
 if not len(mp4_filenames) == 0:
@@ -261,7 +246,6 @@ else:
 		print('\n\n\nThe files that were not proccessed: \n')
 		for er in errored_files:
 			print(er)
-# TODO add notification at the end
 
 
 
