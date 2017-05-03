@@ -42,9 +42,9 @@ Here's a <a href="http://www.wikihow.com/Install-FFmpeg-on-Windows">wikiHow arti
 
 To enable this you will have to tweak the registry of your windows machine.
 1. Fire up your Registry Editor. A quick way is to open the _Run_ window (Win + R) and type "regedit"
-2. Head over to <em>HKEY_CLASSES_ROOT\SystemFileAssociations\.mp4</em>
-3. From the left pannel right click on the "_InfoTip_" value name and click "_Modify..._" 
-4. Under the "_Value Data_" field add the attributes, "System.Music.Genre" and "System.Comment" anywhere you like depending how you would like the metadata to show in the tool tip. The "_Value Data_" filed consists of deifferent attributes that appear in the tooltip. For example "System.Media.Duration" is the Duration of the media. These attributes are separted by ";" (semicolon). I would recommend adding the Genre and Comment attributes after "System.Media.Duration".
+2. Head over to <strong>HKEY_CLASSES_ROOT\SystemFileAssociations\.mp4</strong>
+3. From the left pannel right click on the "<strong>InfoTip</strong>" value name and click "<strong>Modify...</strong>" 
+4. Under the "<strong>Value Data</strong>" field add the attributes, "System.Music.Genre" and "System.Comment" anywhere you like depending how you would like the metadata to show in the tool tip. The "<strong>Value Data</strong>" filed consists of deifferent attributes that appear in the tooltip. For example "System.Media.Duration" is the Duration of the media. These attributes are separted by ";" (semicolon). I would recommend adding the Genre and Comment attributes after "System.Media.Duration".
 
 ## Notes
 <ul>
