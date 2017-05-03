@@ -10,6 +10,7 @@ The metadata it adds:
 ![first](/promo-images/first.png)
 
 ## Requirements
+The script makes use of the following tool and python modules
 <ul>
   <li><a href="https://ffmpeg.org/">ffmepeg</a> - A cli-tool that can encode/decode media files</li>
   <li><a href="https://pypi.python.org/pypi/imdbpie">imdbpie</a> - A Python module for IMDb</li>
