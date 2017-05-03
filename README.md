@@ -33,7 +33,7 @@ Here's a <a href="http://www.wikihow.com/Install-FFmpeg-on-Windows">wikiHow arti
 <ol>
   <li>Move all the movie files you want to be tagged into one folder</li>
   <li>If you want subtitles to be embeded into the movie file(s) then add a subtitle file (srt only) in the same folder named exactly the same as the movie file(s).</li>
-  <li>Run the script in that directory and sit back and relax till it ends executing. </li>
+  <li>Download the script (<a href="amt.py">amt.py</a>) and run it in that directory and sit back and relax till it ends executing. </li>
 </ol>
 
 ## Tooltips for Windows Users
