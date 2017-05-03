@@ -7,9 +7,7 @@ The metadata it adds:
 + Year - The release year of the movie
 + Comment - IMDb Rating and the movie's plot-outline.
 
-![The Matrix](/promo-images/matrix.png)
-![Wall-E](/promo-images/walle.png)
-![Doctor Strange](/promo-images/strange.png) 
+![first](/promo-images/first.png)
 
 ## Requirements
 <ul>
