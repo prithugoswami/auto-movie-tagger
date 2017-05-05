@@ -12,7 +12,7 @@ The metadata it adds:
 ## Requirements
 The script makes use of the following tool and python modules
 <ul>
-  <li><a href="https://ffmpeg.org/">ffmepeg</a> - A cli-tool that can encode/decode media files</li>
+  <li><a href="https://ffmpeg.org/">ffmpeg</a> - A cli-tool that can encode/decode media files</li>
   <li><a href="https://pypi.python.org/pypi/imdbpie">imdbpie</a> - A Python module for IMDb</li>
   <li><a href="https://pypi.python.org/pypi/tmdbsimple">tmdbsimple</a> - A Python module which is a wrapper for The Movie Database API v3</li>
   <li><a href="https://pypi.python.org/pypi/mutagen">mutagen</a> - Python module to handle media files' metadata</li>
