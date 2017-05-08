@@ -32,17 +32,17 @@ Here's a <a href="http://www.wikihow.com/Install-FFmpeg-on-Windows">wikiHow arti
 ## How to use
 <ol>
   <li>Move all the movie files you want to be tagged into one folder. Make sure that the filename is <strong>only</strong> the title of the movie</li>
-  <li>If you want subtitles to be embeded into the movie file(s) then add a subtitle file (srt only) in the same folder named exactly the same as the movie file(s).</li>
+  <li>If you want subtitles to be embedded into the movie file(s) then add a subtitle file (srt only) in the same folder named exactly the same as the movie file(s).</li>
   <li>Download the script (<a href="amt.py">amt.py</a>) and run it in that directory and sit back and relax till it ends executing. </li>
 </ol>
 
 ## Tooltips for Windows Users
-![tooltip](/promo-images/tooltip.png) 
+![tooltip](/promo-images/tooltip.png)
 
 To make the tooltip show the movie's genre and IMDb rating and plot-outline, you will have to make some changes in the registry of your windows machine.
 1. Fire up your Registry Editor. A quick way is to open the _Run_ window (Win + R) and type "regedit"
 2. Head over to <strong>HKEY_CLASSES_ROOT\SystemFileAssociations\\.mp4</strong>
-3. From the left pannel right click on the "<strong>InfoTip</strong>" value name and click "<strong>Modify...</strong>" 
+3. From the left pannel right click on the "<strong>InfoTip</strong>" value name and click "<strong>Modify...</strong>"
 4. Under the "<strong>Value Data</strong>" field add the attributes, "System.Music.Genre" and "System.Comment" anywhere you like depending how you would like the metadata to show in the tool tip. The "<strong>Value Data</strong>" filed consists of deifferent attributes that appear in the tooltip. For example "System.Media.Duration" is the Duration of the media. These attributes are separted by ";" (semicolon). I would recommend adding the Genre and Comment attributes after "System.Media.Duration".
 
 ## Notes
@@ -54,4 +54,3 @@ To make the tooltip show the movie's genre and IMDb rating and plot-outline, you
   <li>Although I have provided my own TMDb API key in the source, I would recommend you get you own from <a href="https://www.themoviedb.org/documentation/api">here</a></li>
   <li> Tip - When you sort your tagged movies according to the comment they get sorted by ascending/descending order of their IMDb rating.</li>
 </ul>
-

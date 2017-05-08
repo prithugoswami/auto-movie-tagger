@@ -27,7 +27,7 @@ tmdb.API_KEY = 'b888b64c9155c26ade5659ea4dd60e64'
 
 def collect_files(file_type):
     '''
-    returns a list of files in the current directory that are of 
+    returns a list of files in the current directory that are of
 	the extension passed as string\n
 	eg: collect_files('txt') would return a list of all txt files
     '''
@@ -42,7 +42,7 @@ def get_common_files(mediafile_list, srtfile_list):
 	'''
 	returns a list of filenames that are common in mediafile_list and strfile_list. \n
 	While getting common filenames it ignores the extension.\n
-	Also the returned list will have the same file extension the mediafile_list files have 
+	Also the returned list will have the same file extension the mediafile_list files have
 	'''
 	media_filenames = [i[:-4] for i in mediafile_list]
 	subtitle_filenames = [i[:-4] for i in srtfile_list]
@@ -97,12 +97,12 @@ def start_process(filenames, mode ):
 					except IndexError:
 						continue
 			# we get the info about the movie
-			response = tmdb_movie.info() 
+			response = tmdb_movie.info()
 			# making an imdb object
 			imdb = Imdb()
 			# tmdb_movie.imdb_id is the imdb id of the moovie that we searched before usng tmdb
 			imdb_movie = imdb.get_title_by_id(tmdb_movie.imdb_id)		# Don't mind if any error is linted
-			# using imdb provided movie name and 
+			# using imdb provided movie name and
 			newfilename = imdb_movie.title + ' (' + str(imdb_movie.year) + ').mp4'
 			newfilename = newfilename.replace(':', ' -').replace('/', ' ').replace('?', '')
 
@@ -126,13 +126,13 @@ def start_process(filenames, mode ):
 				print('\nFetching the movie poster...')
 				path = search.results[searchindex]['poster_path']	# Don't mind if any error is linted
 				poster_path = r'https://image.tmdb.org/t/p/w640' + path
-				
+
 				uo = urllib.request.urlopen(poster_path)
 				with open(poster_filename, "wb") as poster_file:
 					poster_file.write(uo.read())
 					poster_file.close()
 
-			# I have commented out the tmbd rating and overview. imdb is a better choice 
+			# I have commented out the tmbd rating and overview. imdb is a better choice
 			# foe ratings and it also has a smaller version of the movie plot (plot_outline)
 			# tmdb_rating_and_plot = str('[' + str(search.results[0]['vote_average']) + '/10] - ' + search.results[0]['overview'])
 			imdb_rating_and_plot = str('IMDb rating [' + str(float(imdb_movie.rating)) + '/10] - ' + imdb_movie.plot_outline)
@@ -143,7 +143,7 @@ def start_process(filenames, mode ):
 			director = directors[0].name
 
 
-			
+
 			video = MP4(newfilename)
 			with open(poster_filename, "rb") as f:
 				video["covr"] = [
@@ -160,8 +160,8 @@ def start_process(filenames, mode ):
 				video.save()
 				# I have encounterd this error in pevious version of script, now I handle it by removing the metadata
 				# of the file. That seems to solve the probelem
-			except OverflowError:		
-				
+			except OverflowError:
+
 
 				remove_meta_command = 'ffmpeg -i "' + newfilename + '" -codec copy -map_metadata -1 "' + newfilename[:-4] + 'new.mp4"'
 				subprocess.run(remove_meta_command)
@@ -186,7 +186,7 @@ def start_process(filenames, mode ):
 				except OverflowError:
 					errored_files.append(filename + ' - Could not save even after striping metadata' )
 					continue
-				
+
 			os.remove(poster_filename)
 			print('\n' + filename + ' was proccesed successfuly!\n\n==========================================================')
 		except Exception as e:
@@ -205,9 +205,9 @@ mp4_filenames = collect_files('mp4')
 mkv_filenames = collect_files('mkv')
 srt_filenames = collect_files('srt')
 
-# We check whether there are mp4 files and if yes, then are there any srt files, 
+# We check whether there are mp4 files and if yes, then are there any srt files,
 # if yes, then get the mp4 files that have srts associated with them, then if there
-# are mp4 files that have srt files associated with them then remove the others as they 
+# are mp4 files that have srt files associated with them then remove the others as they
 # are to be proccessed separately
 if not len(mp4_filenames) == 0:
 	if not len(srt_filenames) == 0:
@@ -222,7 +222,7 @@ if not len(mkv_filenames) == 0:
 			mkv_filenames = remove_common_files(mkv_filenames, mkv_with_srt_filenames)
 
 # This is where the main process of conversion takes place.
-# We simply check the file lists are not empty and then execute the main task depending 
+# We simply check the file lists are not empty and then execute the main task depending
 # on what type it is according to mode in the funtion "start_process"
 if not len(mp4_filenames) == 0:
 	start_process(mp4_filenames, 1)
