@@ -1,4 +1,5 @@
 '''
+
 This script might seem a little messy and ugly and I know maybe there is better and effecient way to do some of the tasks
 but I am unaware of them at the moment and am a begginer in Python and this is my first, or maybe second python script.
 
