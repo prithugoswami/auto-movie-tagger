@@ -1,9 +1,11 @@
 """A Script that tags you movie files.
 
+
 This script might seem a little messy and ugly and I know maybe there is
 better and effecient way to do some of the tasks.
 but I am unaware of them at the moment and am a begginer in Python and
 this is my first, or maybe second python script.
+
 TO-DO
 1. Add a way to notify when the script is done running
 2. Seems a little too much for now but I could change/add stream specific
@@ -78,7 +80,7 @@ def remove_common_files(list1, list2):
 def start_process(filenames, mode):
     """
     This is the main funtion of the script
-    where it does its main processing\n
+    where it does its main processing.\n
     filenames is the list of files to be processed\n
     mode = 1,2,3 or 4\n
     1 means mp4 to tagged mp4\n
@@ -179,7 +181,7 @@ def start_process(filenames, mode):
             # setting the genres of the movie. I use ';' as a delimeter
             # to searate the multiple genre values
             genre = ';'.join(imdb_movie.genres)
-            # Going overboard and adding directors name to artist taf of
+            # Going overboard and adding directors name to artist tag of
             # the mp4 file
             directors = imdb_movie.directors_summary
             director = directors[0].name
