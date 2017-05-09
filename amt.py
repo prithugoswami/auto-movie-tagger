@@ -1,5 +1,7 @@
 """A Script that tags you movie files.
 
+Run the script in a folder containing the mp4/mkv movie files with their
+filename as the movie's title.
 
 This script might seem a little messy and ugly and I know maybe there is
 better and effecient way to do some of the tasks.
