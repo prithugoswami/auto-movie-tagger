@@ -11,13 +11,20 @@ The metadata it adds:
 ![first](/promo-images/first.png)
 
 ## Requirements
-The script makes use of the following tool and python modules. __Make sure to install them before you run the script.__
-<ul>
-  <li><a href="https://ffmpeg.org/">ffmpeg</a> - A cli-tool that can encode/decode media files</li>
-  <li><a href="https://pypi.python.org/pypi/imdbpie">imdbpie</a> - A Python module for IMDb</li>
-  <li><a href="https://pypi.python.org/pypi/tmdbsimple">tmdbsimple</a> - A Python module which is a wrapper for The Movie Database API v3</li>
-  <li><a href="https://pypi.python.org/pypi/mutagen">mutagen</a> - Python module to handle media files' metadata</li>
-</ul>
+The script makes use of the following tool and python modules. __Make sure to install them before you run the script.__  
+
+><h4>Note for Linux Users with both python2 and     python3 installed on their system</h4>
+  <p style="color:orange">This script might not work properly for python2.x. Use python3 to execute it. If you are on Ubuntu with python2.x and python3.x both installed, install pip3 using</p>
+  <pre>sudo apt-get install pip3</pre>
+
+
+
+  <ul>
+    <li><a href="https://ffmpeg.org/">ffmpeg</a> - A cli-tool that can encode/decode media files</li>
+    <li><a href="https://pypi.python.org/pypi/imdbpie">imdbpie</a> - A Python module for IMDb</li>
+    <li><a href="https://pypi.python.org/pypi/tmdbsimple">tmdbsimple</a> - A Python module which is a wrapper for The Movie Database API v3</li>
+    <li><a href="https://pypi.python.org/pypi/mutagen">mutagen</a> - Python module to handle media files' metadata</li>
+  </ul>
 
 ## Installing ffmpeg
 You need to first download ffmpeg (<a href="https://ffmpeg.org/download.html">from here</a>) and add it to your PATH variable.  
@@ -25,9 +32,9 @@ Here's a <a href="http://www.wikihow.com/Install-FFmpeg-on-Windows">wikiHow arti
 
 ## Installing Python module dependencies
 <ul>
-  <li>imdbpie  <pre><code>pip install imdbpie</code></pre></li>
-  <li>tmdbpie  <pre><code>pip install tmdbsimple</code></pre></li>
-  <li>mutagen  <pre><code>pip install mutagen</code></pre></li>
+  <li>imdbpie  <pre>pip install imdbpie</pre></li>
+  <li>tmdbpie  <pre>pip install tmdbsimple</pre></li>
+  <li>mutagen  <pre>pip install mutagen</pre></li>
 </ul>
 
 ## How to use
@@ -36,6 +43,8 @@ Here's a <a href="http://www.wikihow.com/Install-FFmpeg-on-Windows">wikiHow arti
   <li>If you want subtitles to be embedded into the movie file(s) then add a subtitle file (.srt only) in the same folder named exactly the same as the movie file(s).</li>
   <li>Download the script (<a href="amt.py">amt.py</a>) and run it in that directory and sit back and relax till it ends executing. How to run the script in that directory? Copy the script in the directory and run it using the command:
   <pre><code>python amt.py</code></pre>
+  Ubuntu users with python2.x and python3.x both installed, make sure the depedences are installed using <code>pip3 install &lt;module&gt;</code> and then run the script using:  
+  <pre>python3 amt.py</pre>
   </li>
 </ol>
 
