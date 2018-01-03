@@ -13,9 +13,12 @@ The metadata it adds:
 ## Requirements
 The script makes use of the following tool and python modules. __Make sure to install them before you run the script.__  
 
-><h4>Note for Linux Users with both python2 and python3 installed on their system</h4>
-><p style="color:orange">This script might not work properly for python2.x. Use python3 to execute it. If you are on Ubuntu with python2.x and python3.x both installed, install pip3 using</p>
+
+><h3>Note for Linux Users with both python2 and python3 installed on their system</h3>
+>This script might not work properly for python2.x. Use python3 to execute it. If you are on Ubuntu with python2.x and python3.x both installed, install pip3 using</p>
 ><pre>sudo apt-get install pip3</pre>
+>and then install the dependencies:
+><pre>pip3 install &lt;module&gt;</pre>
 
 
 
