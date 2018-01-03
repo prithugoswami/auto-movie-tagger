@@ -23,9 +23,22 @@ in MKVs but are not supported by MP4
 import os
 import subprocess
 import urllib
+import shlex
+import linecache
+import sys
 import tmdbsimple as tmdb
 from imdbpie import Imdb
 from mutagen.mp4 import MP4, MP4Cover
+
+
+def PrintException():
+    exc_type, exc_obj, tb = sys.exc_info()
+    f = tb.tb_frame
+    lineno = tb.tb_lineno
+    fname = f.f_code.co_filename
+    linecache.checkcache(fname)
+    line = linecache.getline(fname, lineno, f.f_globals)
+    print ('\nEXCEPTION IN ({}, LINE {} "{}"): {}'.format(fname, lineno, line.strip(), exc_obj))
 
 
 #  Setting the API key for usage of TMDB API
@@ -246,6 +259,7 @@ def start_process(filenames, mode):
                   + filename
                   + '\n\n====================================================')
             errored_files.append(filename + ' - ' + str(e))
+            PrintException()
 
 
 mp4_filenames = []
