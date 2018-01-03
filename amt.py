@@ -122,9 +122,9 @@ def start_process(filenames, mode):
                                   " alternate movie title >> ")
 
                     searchindex = int(input('Search result index >> '))
-                    response = search.movie(query=title)
+                    srch_response = search.movie(query=title)
                     try:
-                        tmdb_movie = (tmdb.Movies(response['results']
+                        tmdb_movie = (tmdb.Movies(srch_response['results']
                                       [searchindex]['id']))
                     except IndexError:
                         continue
