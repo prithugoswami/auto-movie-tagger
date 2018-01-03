@@ -111,25 +111,25 @@ def start_process(filenames, mode):
 
             print('\nFetching movie data for "' + title + '"')
             search = tmdb.Search()
-            response = search.movie(query=title)
+            srch_response = search.movie(query=title)
             # getting a Movies object from the id that we got from the search
             # results
             try:    # sometimes blank search results are returned
-                tmdb_movie = tmdb.Movies(search.results[searchindex]['id'])
+                tmdb_movie = tmdb.Movies(srch_response['results'][searchindex]['id'])
             except IndexError:
-                while len(search.results) == 0:
+                while len(srch_response['results']) == 0:
                     title = input("\nCould not find the movie, Enter"
                                   " alternate movie title >> ")
 
                     searchindex = int(input('Search result index >> '))
                     response = search.movie(query=title)
                     try:
-                        tmdb_movie = (tmdb.Movies(search
-                                      .results[searchindex]['id']))
+                        tmdb_movie = (tmdb.Movies(response['results']
+                                      [searchindex]['id']))
                     except IndexError:
                         continue
             # we get the info about the movie
-            response = tmdb_movie.info()
+            movie_response = tmdb_movie.info()
             # making an imdb object
             imdb = Imdb()
             # tmdb_movie.imdb_id is the imdb id of the moovie that we searched
@@ -181,7 +181,7 @@ def start_process(filenames, mode):
             poster_filename = filename[:-4] + '.jpg'
             if not os.path.isfile(poster_filename):
                 print('\nFetching the movie poster...')
-                path = search.results[searchindex]['poster_path']
+                path = srch_response['results'][searchindex]['poster_path']
                 poster_path = r'https://image.tmdb.org/t/p/w640' + path
 
                 uo = urllib.request.urlopen(poster_path)
