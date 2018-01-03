@@ -163,7 +163,7 @@ def start_process(filenames, mode):
                              '-metadata:s:a:0 handler="" '
                              '-metadata:s:v:0 handler="" "'
                              + newfilename + '"')
-                subprocess.run(command)
+                subprocess.run(shlex.split(command))
             if mode == 3:
                 command = ('ffmpeg -i "'
                            + filename
@@ -173,7 +173,7 @@ def start_process(filenames, mode):
                              '-metadata:s:a:0 handler="" '
                              '-metadata:s:v:0 handler="" '
                              '"' + newfilename + '"')
-                subprocess.run(command)
+                subprocess.run(shlex.split(command))
 
             # the poster is fetched from tmdb only if there is no file
             # named " filename + '.jpg' " in the working directory
@@ -222,7 +222,7 @@ def start_process(filenames, mode):
                 remove_meta_command = ('ffmpeg -i "' + newfilename
                                        + '" -codec copy -map_metadata -1 "'
                                        + newfilename[:-4] + 'new.mp4"')
-                subprocess.run(remove_meta_command)
+                subprocess.run(shlex.split(remove_meta_command))
                 video_new = MP4(newfilename[:-4] + 'new.mp4')
                 with open(poster_filename, "rb") as f:
                     video_new["covr"] = [MP4Cover(
