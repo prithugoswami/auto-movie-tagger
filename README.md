@@ -8,7 +8,7 @@ The metadata it adds:
 + Year - The release year of the movie
 + Comment - IMDb Rating and the movie's plot-outline.
 
-![first](/promo-images/first.png)
+![first](https://user-images.githubusercontent.com/28246690/34607517-11481cd8-f23a-11e7-93de-0231b36dee7e.png)
 
 ## Requirements
 The script makes use of the following tool and python modules. __Make sure to install them before you run the script.__  
@@ -62,7 +62,7 @@ Here's a <a href="http://www.wikihow.com/Install-FFmpeg-on-Windows">wikiHow arti
 </ul>
 
 ## Tooltips for Windows Users
-![tooltip](/promo-images/tooltip.png)
+![tooltip](https://user-images.githubusercontent.com/28246690/34607523-1e526a14-f23a-11e7-8f49-74c4c0a8454c.png)
 
 To make the tooltip show the movie's genre and IMDb rating and plot-outline like in the screenshot, you will have to make some changes in the registry of your windows machine.
 1. Fire up your _Registry Editor_. Open the _Run_ window (Win + R) and type "regedit"
