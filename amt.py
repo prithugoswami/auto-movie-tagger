@@ -121,7 +121,9 @@ def start_process(filenames, mode):
                     title = input("\nCould not find the movie, Enter"
                                   " alternate movie title >> ")
 
-                    searchindex = int(input('Search result index >> '))
+                    searchindex = int(input("Search result index (enter 0 if "
+                                            "you don't know what this is) >> "))
+                    print('\nFetching movie data for "' + title + '"')
                     srch_response = search.movie(query=title)
                     try:
                         tmdb_movie = (tmdb.Movies(srch_response['results']
