@@ -136,11 +136,13 @@ def start_process(filenames, mode):
             imdb = Imdb()
             # tmdb_movie.imdb_id is the imdb id of the moovie that we searched
             # before usng tmdb
-            imdb_movie = imdb.get_title_by_id(tmdb_movie.imdb_id)
-            # using imdb provided movie name and
-            newfilename = (imdb_movie.title
+            imdb_movie = imdb.get_title(tmdb_movie.imdb_id)
+            # using imdb-provided movie name and year
+            imdb_movie_title = imdb_movie['base']['title']
+            imdb_movie_year = imdb_movie['base']['year']
+            newfilename = (imdb_movie_title
                            + ' ('
-                           + str(imdb_movie.year)
+                           + str(imdb_movie_year)
                            + ').mp4')
             newfilename = (newfilename
                            .replace(':', ' -')
@@ -190,29 +192,35 @@ def start_process(filenames, mode):
                 with open(poster_filename, "wb") as poster_file:
                     poster_file.write(uo.read())
                     poster_file.close()
-
+            
+            
+            
+            # Composing a string to have the rating and the plot of the
+            # movie which will go into the 'comment' metadata of the 
+            # mp4 file.
+            imdb_movie_rating = imdb_movie['ratings']['rating']
+            imdb_movie_plot_outline = imdb_movie['plot']['outline']['text']
             imdb_rating_and_plot = str('IMDb rating ['
-                                       + str(float(imdb_movie.rating))
+                                       + str(float(imdb_movie_rating))
                                        + '/10] - '
-                                       + imdb_movie.plot_outline)
+                                       + imdb_movie_plot_outline)
+                                       
+            
             # setting the genres of the movie. I use ';' as a delimeter
             # to searate the multiple genre values
-            genre = ';'.join(imdb_movie.genres)
-            # Going overboard and adding directors name to artist tag of
-            # the mp4 file
-            directors = imdb_movie.directors_summary
-            director = directors[0].name
+            imdb_movie_genres = imdb.get_title_genres(tmdb_movie.imdb_id)['genres']
+            genre = ';'.join(imdb_movie_genres)
+            
 
             video = MP4(newfilename)
             with open(poster_filename, "rb") as f:
                 video["covr"] = [MP4Cover(
                                     f.read(),
                                     imageformat=MP4Cover.FORMAT_JPEG)]
-                video['\xa9day'] = str(imdb_movie.year)
-                video['\xa9nam'] = imdb_movie.title
+                video['\xa9day'] = str(imdb_movie_year)
+                video['\xa9nam'] = imdb_movie_title
                 video['\xa9cmt'] = imdb_rating_and_plot
                 video['\xa9gen'] = genre
-                video['\xa9ART'] = director
                 print('\nAdding poster and tagging file...')
 
             try:
@@ -230,11 +238,10 @@ def start_process(filenames, mode):
                     video_new["covr"] = [MP4Cover(
                                             f.read(),
                                             imageformat=MP4Cover.FORMAT_JPEG)]
-                    video_new['\xa9day'] = str(imdb_movie.year)
-                    video_new['\xa9nam'] = imdb_movie.title
+                    video_new['\xa9day'] = str(imdb_movie_year)
+                    video_new['\xa9nam'] = imdb_movie_title
                     video_new['\xa9cmt'] = imdb_rating_and_plot
                     video_new['\xa9gen'] = genre
-                    video_new['\xa9ART'] = director
                     print('\nAdding poster and tagging file...')
 
                 try:
