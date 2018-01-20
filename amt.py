@@ -38,7 +38,10 @@ def PrintException():
     fname = f.f_code.co_filename
     linecache.checkcache(fname)
     line = linecache.getline(fname, lineno, f.f_globals)
-    print ('\nEXCEPTION IN ({}, LINE {} "{}"): {}'.format(fname, lineno, line.strip(), exc_obj))
+    print ('\nEXCEPTION IN ({}, LINE {} "{}"): {}'.format(fname,
+                                                          lineno,
+                                                          line.strip(),
+                                                          exc_obj))
 
 
 #  Setting the API key for usage of TMDB API
@@ -104,46 +107,77 @@ def start_process(filenames, mode):
     4 means mkv with sub to subbed and tagged mp4
     """
 
-    searchindex = 0
     for filename in filenames:
         try:
             title = filename[:-4]
-
-            print('\nFetching movie data for "' + title + '"')
-            search = tmdb.Search()
-            srch_response = search.movie(query=title)
-            # getting a Movies object from the id that we got from the search
-            # results
-            try:    # sometimes blank search results are returned
-                tmdb_movie = tmdb.Movies(srch_response['results'][searchindex]['id'])
-            except IndexError:
-                while len(srch_response['results']) == 0:
-                    title = input("\nCould not find the movie, Enter"
-                                  " alternate movie title >> ")
-
-                    searchindex = int(input("Search result index (enter 0 if "
-                                            "you don't know what this is) >> "))
-                    print('\nFetching movie data for "' + title + '"')
-                    srch_response = search.movie(query=title)
-                    try:
-                        tmdb_movie = (tmdb.Movies(srch_response['results']
-                                      [searchindex]['id']))
-                    except IndexError:
-                        continue
-            # we get the info about the movie
-            movie_response = tmdb_movie.info()
-            # making an imdb object
+            print('\nSearching IMDb for - "' + title )
+            
             imdb = Imdb()
-            # tmdb_movie.imdb_id is the imdb id of the moovie that we searched
-            # before usng tmdb
-            imdb_movie = imdb.get_title(tmdb_movie.imdb_id)
-            # using imdb-provided movie name and year
+            movie_results = []
+            results = imdb.search_for_title(title)
+            for result in results:
+                if result['type'] == "feature":
+                    movie_results.append(result)
+                    
+            if not movie_results:
+                while not movie_results:
+                    title = input('\nNo results for "' + title +
+                                  '" Enter alternate/correct movie title >> ')
+                    
+                    results = imdb.search_for_title(title)
+                    for result in results:
+                        if result['type'] == "feature":
+                            movie_results.append(result)
+                
+            # The most prominent result is the first one
+            # mpr - Most Prominent Result
+            mpr = movie_results[0]
+            print('\nFetching data for {} ({})'.format(mpr['title'],
+                                                       mpr['year']))
+                                                     
+            # imdb_movie is a dict of info about the movie
+            imdb_movie = imdb.get_title(mpr['imdb_id'])
+           
+            # Storing the data we will requre in variables
+            # before hand.
+            # Movie Title         -   imdb_movie_title
+            # Movie Year          -   imdb_movie_year
+            # IMDb id             -   imdb_movie_id
+            # Movie IMDb Rating   -   imdb_movie_rating
+            # Movie Plot          -   imdb_movie_plot_outline
+            # Movie Genres        -   imdb_movie_genres
+            
             imdb_movie_title = imdb_movie['base']['title']
             imdb_movie_year = imdb_movie['base']['year']
+            imdb_movie_id = mpr['imdb_id']
+                        
+            
+
+            imdb_movie_rating = imdb_movie['ratings']['rating']
+            imdb_movie_plot_outline = imdb_movie['plot']['outline']['text']
+            
+            # Composing a string to have the rating and the plot of the
+            # movie which will go into the 'comment' metadata of the 
+            # mp4 file.
+            imdb_rating_and_plot = str('IMDb rating ['
+                                       + str(float(imdb_movie_rating))
+                                       + '/10] - '
+                                       + imdb_movie_plot_outline)
+                                       
+            
+            imdb_movie_genres = imdb.get_title_genres(imdb_movie_id)['genres']
+            
+            # Composing the 'genre' string of the movie.
+            # I use ';' as a delimeter to searate the multiple genre values
+            genre = ';'.join(imdb_movie_genres)
+            
+            
             newfilename = (imdb_movie_title
                            + ' ('
                            + str(imdb_movie_year)
                            + ').mp4')
+                           
+            # We don't want the characters not allowed in a filename
             newfilename = (newfilename
                            .replace(':', ' -')
                            .replace('/', ' ')
@@ -179,37 +213,23 @@ def start_process(filenames, mode):
                              '"' + newfilename + '"')
                 subprocess.run(shlex.split(command))
 
-            # the poster is fetched from tmdb only if there is no file
+            # The poster is fetched from tmdb only if there is no file
             # named " filename + '.jpg' " in the working directory
             # this way user can provide their own poster image to be used
             poster_filename = filename[:-4] + '.jpg'
             if not os.path.isfile(poster_filename):
                 print('\nFetching the movie poster...')
-                path = srch_response['results'][searchindex]['poster_path']
-                poster_path = r'https://image.tmdb.org/t/p/w640' + path
-
-                uo = urllib.request.urlopen(poster_path)
+                tmdb_find = tmdb.Find(imdb_movie_id)
+                tmdb_find.info(external_source = 'imdb_id')
+                
+                path = tmdb_find.movie_results[0]['poster_path']
+                complete_path = r'https://image.tmdb.org/t/p/w640' + path
+                
+                uo = urllib.request.urlopen(complete_path)
                 with open(poster_filename, "wb") as poster_file:
                     poster_file.write(uo.read())
                     poster_file.close()
             
-            
-            
-            # Composing a string to have the rating and the plot of the
-            # movie which will go into the 'comment' metadata of the 
-            # mp4 file.
-            imdb_movie_rating = imdb_movie['ratings']['rating']
-            imdb_movie_plot_outline = imdb_movie['plot']['outline']['text']
-            imdb_rating_and_plot = str('IMDb rating ['
-                                       + str(float(imdb_movie_rating))
-                                       + '/10] - '
-                                       + imdb_movie_plot_outline)
-                                       
-            
-            # setting the genres of the movie. I use ';' as a delimeter
-            # to searate the multiple genre values
-            imdb_movie_genres = imdb.get_title_genres(tmdb_movie.imdb_id)['genres']
-            genre = ';'.join(imdb_movie_genres)
             
 
             video = MP4(newfilename)
@@ -270,7 +290,7 @@ def start_process(filenames, mode):
             errored_files.append(filename + ' - ' + str(e))
             PrintException()
 
-
+                                                                               
 mp4_filenames = []
 mkv_filenames = []
 srt_filenames = []
