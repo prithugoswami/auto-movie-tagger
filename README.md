@@ -4,7 +4,6 @@ Also adds subtitles if provided.
 
 The metadata it adds:
 + Genre - Movie's genres
-+ Artist - The director of the movie
 + Year - The release year of the movie
 + Comment - IMDb Rating and the movie's plot-outline.
 

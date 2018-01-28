@@ -110,7 +110,7 @@ def start_process(filenames, mode):
     for filename in filenames:
         try:
             title = filename[:-4]
-            print('\nSearching IMDb for - "' + title )
+            print('\nSearching IMDb for "{}"'.format(title))
             
             imdb = Imdb()
             movie_results = []
@@ -137,15 +137,6 @@ def start_process(filenames, mode):
                                                      
             # imdb_movie is a dict of info about the movie
             imdb_movie = imdb.get_title(mpr['imdb_id'])
-           
-            # Storing the data we will requre in variables
-            # before hand.
-            # Movie Title         -   imdb_movie_title
-            # Movie Year          -   imdb_movie_year
-            # IMDb id             -   imdb_movie_id
-            # Movie IMDb Rating   -   imdb_movie_rating
-            # Movie Plot          -   imdb_movie_plot_outline
-            # Movie Genres        -   imdb_movie_genres
             
             imdb_movie_title = imdb_movie['base']['title']
             imdb_movie_year = imdb_movie['base']['year']
