@@ -214,7 +214,7 @@ def start_process(filenames, mode):
                 tmdb_find.info(external_source = 'imdb_id')
                 
                 path = tmdb_find.movie_results[0]['poster_path']
-                complete_path = r'https://image.tmdb.org/t/p/w640' + path
+                complete_path = r'https://image.tmdb.org/t/p/w780' + path
                 
                 uo = urllib.request.urlopen(complete_path)
                 with open(poster_filename, "wb") as poster_file:
