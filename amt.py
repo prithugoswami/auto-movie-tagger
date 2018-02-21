@@ -143,9 +143,15 @@ def start_process(filenames, mode):
             imdb_movie_id = mpr['imdb_id']
                         
             
-
             imdb_movie_rating = imdb_movie['ratings']['rating']
-            imdb_movie_plot_outline = imdb_movie['plot']['outline']['text']
+            
+            if not 'outline' in imdb_movie['plot']:
+                imdb_movie_plot_outline = (imdb_movie['plot']['summaries'][0]
+                                           ['text'])
+                print("\nPlot outline does not exist. Fetching plot summary "
+                        "instead.\n\n")
+            else:
+                imdb_movie_plot_outline = imdb_movie['plot']['outline']['text']
             
             # Composing a string to have the rating and the plot of the
             # movie which will go into the 'comment' metadata of the 
