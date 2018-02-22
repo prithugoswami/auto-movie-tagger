@@ -26,9 +26,24 @@ import urllib
 import shlex
 import linecache
 import sys
+from json import JSONDecoder
 import tmdbsimple as tmdb
 from imdbpie import Imdb
 from mutagen.mp4 import MP4, MP4Cover
+import pprint
+
+
+def collect_stream_metadata(filename):
+    command = 'ffprobe -i "{}" -show_streams -of json'.format(filename)
+    args = shlex.split(command)
+    p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                         universal_newlines=True)
+    out, err = p.communicate()
+    
+    json_data = JSONDecoder().decode(out)
+    
+    return json_data
+        
 
 
 def PrintException():
@@ -110,6 +125,16 @@ def start_process(filenames, mode):
     for filename in filenames:
         try:
             title = filename[:-4]
+            
+            stream_md = collect_stream_metadata(filename)
+            streams_to_process = []
+            dvdsub_exists=False
+            for stream in stream_md['streams']:
+                if not stream['codec_name'] == "dvdsub":
+                    streams_to_process.append(stream['index'])
+                else:
+                    dvdsub_exists=True
+            
             print('\nSearching IMDb for "{}"'.format(title))
             
             imdb = Imdb()
@@ -181,34 +206,43 @@ def start_process(filenames, mode):
                            .replace('?', ''))
 
             command = ""
+            stream_map = []
+            for f in streams_to_process:
+                stream_map.append("-map 0:{}".format(f))
+            stream_map_str = ' '.join(stream_map)           
+            
+            
 
             if mode == 1:
                 # it is required to rename it as its already an mp4 file that
                 # wasn't proccessed by ffmpeg
                 os.rename(filename, newfilename)
             if mode == 2 or mode == 4:
+
                 command = ('ffmpeg -i "'
                            + filename
                            + '" -sub_charenc UTF-8 -i "'
                            + filename[:-4]
                            + '.srt" '
-                           + '-map 0 -map 1 -c copy -c:s mov_text '
-                             '-metadata:s:s:0 handler="English Subtitle" '
-                             '-metadata:s:s:0 language=eng '
+                           + stream_map_str
+                           + ' -map 1 -c copy -c:s mov_text '
                              '-metadata:s:a:0 handler="" '
                              '-metadata:s:v:0 handler="" "'
                              + newfilename + '"')
                 subprocess.run(shlex.split(command))
             if mode == 3:
-                command = ('ffmpeg -i "'
-                           + filename
-                           + '" -c copy -c:s mov_text '
-                             '-metadata:s:s:0 handler="English" '
-                             '-metadata:s:s:0 language=eng '
+                command = ('ffmpeg -i '
+                           + '"' + filename + '" '
+                           + stream_map_str
+                           + ' -c copy -c:s mov_text '
                              '-metadata:s:a:0 handler="" '
                              '-metadata:s:v:0 handler="" '
                              '"' + newfilename + '"')
                 subprocess.run(shlex.split(command))
+                
+            if dvdsub_exists:
+                print("\nRemoved DVD Subtitles due to uncompatibility with "
+                      "mp4 file format")
 
             # The poster is fetched from tmdb only if there is no file
             # named " filename + '.jpg' " in the working directory
