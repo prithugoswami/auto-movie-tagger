@@ -10,15 +10,7 @@ this is my first, or maybe second python script.
 
 TO-DO
 1. Add a way to notify when the script is done running
-2. Seems a little too much for now but I could change/add stream specific
-metadata according to the file
-For example depending upon what kind of audio the mkv file has (like AAC 5.1,
-DTS 5.1), the script can also change the title/handler of the audio stream
-right now it just blanks it out.
-The same can be done for subtitles depending upon language. This can also be
-implemented to discard dvd subtitles that are sometimes found
-in MKVs but are not supported by MP4
-3. Add proper error handleling for ffmpeg
+2. Add proper error handleling for ffmpeg
 """
 import os
 import subprocess
@@ -226,17 +218,13 @@ def start_process(filenames, mode):
                            + '.srt" '
                            + stream_map_str
                            + ' -map 1 -c copy -c:s mov_text '
-                             '-metadata:s:a:0 handler="" '
-                             '-metadata:s:v:0 handler="" "'
-                             + newfilename + '"')
+                             '"' + newfilename + '"')
                 subprocess.run(shlex.split(command))
             if mode == 3:
                 command = ('ffmpeg -i '
                            + '"' + filename + '" '
                            + stream_map_str
                            + ' -c copy -c:s mov_text '
-                             '-metadata:s:a:0 handler="" '
-                             '-metadata:s:v:0 handler="" '
                              '"' + newfilename + '"')
                 subprocess.run(shlex.split(command))
                 
