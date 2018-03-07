@@ -27,7 +27,7 @@ from mutagen.mp4 import MP4, MP4Cover
 def collect_stream_metadata(filename):
     """
     Returns a list of streams' metadata present in the media file passed as 
-    the argument (filename)
+    the argument (filename) 
     """
     command = 'ffprobe -i "{}" -show_streams -of json'.format(filename)
     args = shlex.split(command)
@@ -125,7 +125,7 @@ def start_process(filenames, mode):
             streams_to_process = []
             dvdsub_exists=False
             for stream in stream_md['streams']:
-                if not stream['codec_name'] == "dvdsub":
+                if not stream['codec_name'] in ("dvdsub", "pgssub"):
                     streams_to_process.append(stream['index'])
                 else:
                     dvdsub_exists=True
