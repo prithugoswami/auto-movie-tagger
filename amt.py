@@ -1,4 +1,4 @@
-"""A Script that tags you movie files.
+"""A Script that tags your movie files.
 
 Run the script in a folder containing the mp4/mkv movie files with their
 filename as the movie's title.
@@ -22,10 +22,13 @@ from json import JSONDecoder
 import tmdbsimple as tmdb
 from imdbpie import Imdb
 from mutagen.mp4 import MP4, MP4Cover
-import pprint
 
 
 def collect_stream_metadata(filename):
+    """
+    Returns a list of streams' metadata present in the media file passed as 
+    the argument (filename)
+    """
     command = 'ffprobe -i "{}" -show_streams -of json'.format(filename)
     args = shlex.split(command)
     p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
