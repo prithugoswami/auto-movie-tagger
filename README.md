@@ -19,8 +19,8 @@ The metadata it adds:
     <li><a href="https://pypi.python.org/pypi/mutagen">mutagen</a> - Python module to handle media files' metadata</li>
   </ul>
 
-><h3>Note for Linux Users with both python2 and python3 installed on their system</h3>
->This script is compatible for python3 only. If you are on Ubuntu with python2.x and python3.x both installed, install pip3 using</p>
+><h3>Note for installing python 3 dependencies</h3>
+>This script is compatible for python3 only. If you are on Ubuntu or any other distro/OS with python2.x and python3.x both installed, make sure you use 'pip3' command to install the python modules. On Ubuntu/Debian-based distros you can run:</p>
 ><pre>sudo apt-get install pip3</pre>
 >and then install the dependencies:
 ><pre>pip3 install &lt;module&gt;</pre>
