@@ -29,7 +29,8 @@ The metadata it adds:
 
 
 ## Installing ffmpeg
-You need to first download ffmpeg (<a href="https://ffmpeg.org/download.html">from here</a>) and add it to your PATH variable.  
+You can download ffmpeg for your platform <a href="https://ffmpeg.org/download.html">from here</a>. Most of the linux distributions come with it ffmpeg pre-installed, or you can always look for the package in your distro's package repository.  
+<a href="https://trac.ffmpeg.org/wiki/CompilationGuide">Compilation Guide for ffmpeg</a>  
 Here's a <a href="http://www.wikihow.com/Install-FFmpeg-on-Windows">wikiHow article on how to install ffmpeg on Windows</a>
 
 ## Installing Python module dependencies
