@@ -10,34 +10,30 @@ The metadata it adds:
 ![first](https://user-images.githubusercontent.com/28246690/34607517-11481cd8-f23a-11e7-93de-0231b36dee7e.png)
 
 ## Requirements
-The script makes use of the following tool and python modules. __Make sure to install them before you run the script.__  
-
-
-><h3>Note for Linux Users with both python2 and python3 installed on their system</h3>
->This script might not work properly for python2.x. Use python3 to execute it. If you are on Ubuntu with python2.x and python3.x both installed, install pip3 using</p>
-><pre>sudo apt-get install pip3</pre>
->and then install the dependencies:
-><pre>pip3 install &lt;module&gt;</pre>
-
-
 
   <ul>
+    <li>python 3.x</li>
     <li><a href="https://ffmpeg.org/">ffmpeg</a> - A cli-tool that can encode/decode media files</li>
     <li><a href="https://pypi.python.org/pypi/imdbpie">imdbpie</a> - A Python module for IMDb</li>
     <li><a href="https://pypi.python.org/pypi/tmdbsimple">tmdbsimple</a> - A Python module which is a wrapper for The Movie Database API v3</li>
     <li><a href="https://pypi.python.org/pypi/mutagen">mutagen</a> - Python module to handle media files' metadata</li>
   </ul>
 
+><h3>Note for Linux Users with both python2 and python3 installed on their system</h3>
+>This script is compatible for python3 only. If you are on Ubuntu with python2.x and python3.x both installed, install pip3 using</p>
+><pre>sudo apt-get install pip3</pre>
+>and then install the dependencies:
+><pre>pip3 install &lt;module&gt;</pre>
+
+
+
+
 ## Installing ffmpeg
 You need to first download ffmpeg (<a href="https://ffmpeg.org/download.html">from here</a>) and add it to your PATH variable.  
 Here's a <a href="http://www.wikihow.com/Install-FFmpeg-on-Windows">wikiHow article on how to install ffmpeg on Windows</a>
 
 ## Installing Python module dependencies
-<ul>
-  <li>imdbpie  <pre>pip install imdbpie</pre></li>
-  <li>tmdbpie  <pre>pip install tmdbsimple</pre></li>
-  <li>mutagen  <pre>pip install mutagen</pre></li>
-</ul>
+<pre>pip install imdbpie tmdbsimple mutagen</pre>
 
 ## How to use
 <ol>
