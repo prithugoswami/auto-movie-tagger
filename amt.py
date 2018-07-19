@@ -24,6 +24,7 @@ from mutagen.mp4 import MP4, MP4Cover
 # not supported by the mp4 container. These are mainly picture-based subtitles
 sub_codec_blacklist = ("dvdsub", "dvd_subtitle", "pgssub")
 
+
 def collect_stream_metadata(filename):
     """
     Returns a list of streams' metadata present in the media file passed as 
@@ -57,16 +58,22 @@ def PrintException():
 tmdb.API_KEY = 'b888b64c9155c26ade5659ea4dd60e64'
 
 
-def collect_files(file_type):
+def collect_files(file_type, recurse=False):
     """
     returns a list of files in the current directory that are of
     the extension passed as string\n
     eg: collect_files('txt') would return a list of all txt files
     """
     filenames = []
-    for filename in os.listdir(os.getcwd()):
-        if filename.endswith(file_type):
-            filenames.append(filename)
+    if recurse:
+        for root,dirs,files in os.walk(os.getcwd()):
+            for f in files:
+                if f.endswith(file_type):
+                    filenames.append(os.path.join(root,f))
+    else:
+        for filename in os.listdir(os.getcwd()):
+            if filename.endswith(file_type):
+                filenames.append(filename)
     return filenames
 
 
@@ -118,7 +125,7 @@ def start_process(filenames, mode):
 
     for filename in filenames:
         try:
-            title = filename[:-4]
+            title = os.path.basename(filename)[:-4]
             
             stream_md = collect_stream_metadata(filename)
             streams_to_process = []
@@ -199,11 +206,13 @@ def start_process(filenames, mode):
                            .replace('/', ' ')
                            .replace('?', ''))
 
+            newfilename = os.path.join(os.path.dirname(filename), newfilename)
+
             command = ""
             stream_map = []
             for f in streams_to_process:
                 stream_map.append("-map 0:{}".format(f))
-            stream_map_str = ' '.join(stream_map)           
+            stream_map_str = ' '.join(stream_map)
             
             
 
@@ -319,26 +328,31 @@ mp4_with_srt_filenames = []
 mkv_with_srt_filenames = []
 errored_files = []
 
-mp4_filenames = collect_files('mp4')
-mkv_filenames = collect_files('mkv')
-srt_filenames = collect_files('srt')
+if len(sys.argv) > 1 and sys.argv[1]=='-r':
+    mp4_filenames = collect_files('mp4', recurse=True)
+    mkv_filenames = collect_files('mkv', recurse=True)
+    srt_filenames = collect_files('srt', recurse=True)
+else:
+    mp4_filenames = collect_files('mp4')
+    mkv_filenames = collect_files('mkv')
+    srt_filenames = collect_files('srt')
 
 # We check whether there are mp4 files and if yes, are there any
 # srt files? if yes, then get the mp4 files that have srts associated with them
 # then if there are mp4 files that have srt files associated with them then
 # remove the others as they are to be proccessed separately
-if not len(mp4_filenames) == 0:
-    if not len(srt_filenames) == 0:
+if mp4_filenames:
+    if srt_filenames:
         mp4_with_srt_filenames = get_common_files(mp4_filenames,
                                                   srt_filenames)
-        if not len(mp4_with_srt_filenames) == 0:
+        if mp4_with_srt_filenames:
             mp4_filenames = remove_common_files(mp4_filenames,
                                                 mp4_with_srt_filenames)
 
-if not len(mkv_filenames) == 0:
-    if not len(srt_filenames) == 0:
+if mkv_filenames:
+    if srt_filenames:
         mkv_with_srt_filenames = get_common_files(mkv_filenames, srt_filenames)
-        if not len(mkv_with_srt_filenames) == 0:
+        if mkv_with_srt_filenames:
             mkv_filenames = remove_common_files(mkv_filenames,
                                                 mkv_with_srt_filenames)
 
