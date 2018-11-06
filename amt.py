@@ -22,7 +22,7 @@ from mutagen.mp4 import MP4, MP4Cover
 
 # The following subtitle codecs are ingored if found in the file as they are
 # not supported by the mp4 container. These are mainly picture-based subtitles
-sub_codec_blacklist = ("dvdsub", "dvd_subtitle", "pgssub")
+sub_codec_blacklist = ("dvdsub", "dvd_subtitle", "pgssub", "hdmv_pgs_subtitle")
 
 def collect_stream_metadata(filename):
     """
